@@ -1,22 +1,40 @@
 package com.bibekdhungana;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Properties;
+import java.util.Scanner;
 
 public class App {
-	private static String url = "jdbc:mysql://localhost:3306/test";
-	private static String username = "root";
-	private static String password = "RisinG123@";
 	
-	
-    public static void main( String[] args ){
+    public static void main( String[] args ) throws Exception{
+    	
+    	//loading information of database from properties file
+    	FileInputStream fis = new FileInputStream(new File("src/main/java/com/bibekdhungana/databaseInfo.properties"));
+    	Properties databaseProperty = new Properties();
+    	databaseProperty.load(fis);
+    	
+    	
+    	//database information
+    	String url = databaseProperty.getProperty("url");
+    	String username = databaseProperty.getProperty("username");
+    	String password = databaseProperty.getProperty("password");
+    	
 
+    	//sql query using prepared statement
     	Connection con;
     	String sqlQuery = "INSERT INTO UserDetails VALUES(?,?)";
-    	String usernameInput = "Bibek";
-    	String passwordInput = "Lubbock";
+    	Scanner sc = new Scanner(System.in);
+    	
+    	//getting input from console to save in database
+    	System.out.println("Enter username:");
+    	String usernameInput = sc.nextLine();
+    	System.out.println("Enetr Password");
+    	String passwordInput = sc.nextLine();
     	
     	
         //loading .class file to memory
